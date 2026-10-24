@@ -14,7 +14,15 @@ npm start
 
 Abra **http://127.0.0.1:8765**. Não é necessário instalar dependências. O botão **Modo administrador** abre o editor de textos, formatação, imagens, questões, gabaritos e vários vídeos por bloco. Também é possível usar `INICIAR_PORTAL.bat` com Python 3 instalado; no macOS/Linux, `sh INICIAR_PORTAL.sh`.
 
-O editor é uma ferramenta local, **sem login**. Ele só é habilitado no endereço local do computador. Não exponha esse servidor à rede. O conteúdo editado fica no localStorage do navegador e deve ser exportado em JSON para ser incorporado à fonte do projeto.
+O editor desta pasta é uma ferramenta local, **sem login**. Ele só é habilitado no endereço local do computador. Não exponha esse servidor à rede. O conteúdo editado fica no localStorage do navegador e deve ser exportado em JSON para ser incorporado à fonte do projeto.
+
+## Administração on-line
+
+O botão **Administração** no portal abre o serviço privado de edição. A hospedagem solicita acesso à conta proprietária e a gravação é autorizada pelo seu GitHub. Na primeira visita, a integração oficial deve ser instalada somente em `portal-invest-2027-portugues`.
+
+Depois de entrar, escolha o bloco e use **Conteúdo, Textos, Questões, Vídeos ou Imagens**. A edição guarda um rascunho neste navegador; **Publicar alterações** registra a versão no GitHub e aciona o Pages. A opção **Acompanhar publicação** mostra o andamento. O serviço rejeita uma gravação se outra versão tiver sido publicada durante a edição.
+
+O código do serviço administrativo fica em `admin-service/`, com seu guia `ADMIN-README.md`. A fonte continua pública; credenciais, sessões e rascunhos não são incluídos no repositório. A publicação do Pages continua contendo somente a área de estudos e o link de acesso à administração.
 
 ## Publicação no GitHub Pages
 
@@ -28,7 +36,7 @@ A prévia pública fica em **http://127.0.0.1:8766**. O build gera `dist/` com a
 
 No repositório GitHub, configure **Settings → Pages → Build and deployment → Source → GitHub Actions**. O workflow `.github/workflows/pages.yml` testa o projeto e publica **somente `dist/`**, a cada atualização de `main` ou execução manual.
 
-GitHub Pages é hospedagem estática: não oferece autenticação, banco de dados ou gravação compartilhada para esse editor. A fonte do editor pode ser consultada em um repositório público; ela não contém credenciais e não concede permissão de edição no GitHub. Uma futura área de administração on-line precisará de autenticação, autorização no servidor, armazenamento e histórico de alterações.
+GitHub Pages é hospedagem estática: não oferece autenticação, banco de dados ou gravação compartilhada. A administração on-line utiliza um serviço separado, com autorização no servidor e gravação versionada no GitHub. A fonte do editor pode ser consultada em um repositório público; ela não contém credenciais e não concede permissão de edição no GitHub.
 
 Referência: [workflows oficiais do GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
 

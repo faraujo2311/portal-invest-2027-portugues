@@ -52,7 +52,7 @@ test('pacote público exclui editor, fontes de backup e caminhos absolutos',asyn
  const html=await readFile(new URL('dist/index.html',root),'utf8');
  assert.doesNotMatch(html,/editor\.js|id="adminScreen"|data-editor=|id="openAdminBtn"|id="adminTopBtn"/);
  assert.match(html,/name="referrer" content="strict-origin-when-cross-origin"/);
- for(const match of html.matchAll(/(?:src|href)="([^"#]+)"/g)){assert.equal(match[1].startsWith('/'),false);await access(new URL('dist/'+match[1],root))}
+ for(const match of html.matchAll(/(?:src|href)="([^"#]+)"/g)){if(/^https:\/\//.test(match[1]))continue;assert.equal(match[1].startsWith('/'),false);await access(new URL('dist/'+match[1],root))}
 });
 test('YouTube aceita formatos conhecidos e rejeita protocolos, hosts e ids falsos',async()=>{
  const code=await readFile(new URL('app.js',root),'utf8');
