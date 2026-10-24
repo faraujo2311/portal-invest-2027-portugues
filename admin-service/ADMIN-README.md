@@ -1,36 +1,28 @@
-# Administração on-line do Portal INVEST 2027
+# Editor do Portal INVEST
 
-Este serviço complementa o portal público hospedado no GitHub Pages. Mantém o editor da V2 para textos, formatação, imagens, questões, gabaritos e vários vídeos por bloco. O conteúdo é lido do repositório `faraujo2311/portal-invest-2027-portugues`, arquivo `data.js`, branch `main`.
+O portal público continua no GitHub Pages. O botão **Editar conteúdo** abre o mesmo material em modo de edição e solicita apenas a senha compartilhada definida pelo proprietário. Não há login no ChatGPT ou no GitHub nesse fluxo.
 
-## Acesso
+## Uso
 
-O serviço é privado e restrito ao proprietário pela autenticação da hospedagem Sites. A autorização adicional do GitHub usa um GitHub App particular e o fluxo oficial OAuth com PKCE. Somente a conta GitHub de ID `67614375` pode ler ou publicar pelo serviço. O nome de login é apresentado como `faraujo2311`.
+1. No portal, selecione um bloco e clique em **Editar conteúdo**.
+2. Digite a senha de edição.
+3. Altere títulos, textos, fontes, tamanhos, cores, imagens, vídeos, questões, referências e blocos.
+4. Clique em **Salvar alterações**. A próxima abertura do portal já busca o material atualizado para todos.
 
-Na primeira visita, **Configurar integração com GitHub** abre o cadastro oficial de um GitHub App com leitura/gravação de conteúdo e leitura dos metadados. Na instalação, selecione **somente** `portal-invest-2027-portugues`. Depois use **Entrar com GitHub**. Nenhuma senha ou token precisa ser copiado para o editor ou para o chat.
+Enquanto você edita, o rascunho fica neste navegador. O botão **Salvar alterações** grava no servidor. Use Exportar conteúdo para manter uma cópia JSON. Não há senha no código público: o servidor valida um hash PBKDF2-SHA256, limita tentativas e cria uma sessão protegida de 8 horas. Quem souber a senha pode editar e salvar todo o material.
 
-As credenciais devolvidas pelo GitHub são recebidas pelo servidor e cifradas em D1 com AES-GCM. A chave `ADMIN_ENCRYPTION_KEY` fica como segredo da hospedagem. A chave privada gerada pelo manifesto não é armazenada: o serviço utiliza apenas autorizações do usuário. Cookies de sessão são opacos, HttpOnly, Secure, SameSite=Lax e expiram em até quatro horas. Sessões e estados OAuth são vinculados à identidade autenticada da hospedagem.
+## Hospedagem e armazenamento
 
-## Editar e publicar
+Site existente: https://portal-invest-2027-admin.russet-frost-6442.chatgpt.site
 
-1. Entre na administração e selecione o bloco.
-2. Use Conteúdo, Textos, Questões, Vídeos ou Imagens.
-3. Revise pela opção Voltar a estudar. As alterações são rascunhos neste navegador.
-4. Clique em **Publicar alterações**. A atualização registra um commit no GitHub e dispara o workflow já existente do Pages.
-5. Use **Acompanhar publicação** para conferir o resultado. A mensagem de envio ao GitHub não significa que o deploy já terminou.
+O acesso da hospedagem deve permitir visitantes anônimos para que a tela de senha abra sem uma conta externa. As rotas de escrita continuam protegidas no servidor por senha, sessão, origem e CSRF. GET /api/published fornece apenas o conteúdo publicado e libera CORS exclusivamente para a origem do portal no GitHub Pages. As rotas antigas de OAuth não estão conectadas ao roteador ativo.
 
-Se o conteúdo mudar no GitHub durante a edição, o servidor rejeita a versão antiga. Exporte o rascunho e recarregue a fonte antes de incorporar as diferenças. Rascunhos de versões antigas podem ser baixados, mas não são restaurados automaticamente sobre uma versão nova.
+O D1 mantém o conteúdo atual em portal_content, versões anteriores em content_versions e contagem de tentativas de senha. Atualizações simultâneas usam comparação de versão; conflitos preservam o rascunho sem sobrescrever a outra edição. A publicação é idempotente. As alterações de conteúdo agora ficam nesse armazenamento, em vez de depender de autorização do GitHub a cada edição. O código do projeto permanece versionado no GitHub. O arquivo data.js é a cópia inicial e a versão de contingência do portal.
 
-O progresso dos estudantes continua local a cada navegador e separado do conteúdo compartilhado. O editor não sincroniza progresso dos estudantes.
+## Configuração do servidor
 
-## Código e publicação
+Variáveis secretas no Sites: ADMIN_ENCRYPTION_KEY e ADMIN_PASSWORD_HASH. O hash usa o formato pbkdf2-sha256$100000$salt-base64$hash-base64. Não registre a senha ou o hash no repositório ou no frontend.
 
-O serviço usa o starter Vinext da hospedagem Sites, preservando seu controle de acesso. O manifesto `.openai/hosting.json` declara D1 como `DB`. O schema e as migrações ficam em `db/` e `drizzle/`.
+As migrações em drizzle/ são aplicadas pelo Sites antes da implantação. A primeira leitura inicializa o conteúdo com lib/default-content.json, preservando as 12 aulas e o vídeo cadastrado. Uma implantação posterior não substitui o material já salvo no banco.
 
-```sh
-node --test tests/admin-api.test.mjs
-npm run build
-```
-
-`scripts/sync-editor.mjs caminho/para/o/portal` copia o editor e a validação compartilhada para `public/editor/`. As credenciais não entram nesses arquivos. Não publique `.env*`, `.dev.vars*`, bancos locais ou chaves privadas.
-
-O backend aceita apenas operações pré-definidas. A publicação escreve exclusivamente `data.js` na `main` do repositório fixo. Há validação de estrutura, tamanho, identidade, sessão, origem, CSRF, revisão SHA e identificador de envio. Leituras e resultados administrativos usam `Cache-Control: private, no-store`.
+Para sincronizar recursos do editor a partir do portal: node scripts/sync-editor.mjs. A tela de senha e online.js são mantidos separadamente. Verificação: node --test tests/admin-api.test.mjs tests/password-api.test.mjs. Use o fluxo oficial do Sites para compilar, empacotar e publicar no mesmo project_id de .openai/hosting.json.

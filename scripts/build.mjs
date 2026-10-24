@@ -14,7 +14,7 @@ html=html.replace(' data-editor="local"','')
  .replace(/<script src="editor.js"><\/script>\s*/,'');
 if(/editor\.js|id="adminScreen"|data-editor=|id="openAdminBtn"|id="adminTopBtn"/.test(html))throw new Error('Editor encontrado no pacote público.');
 await writeFile(path.join(dist,'index.html'),html);
-for(const file of ['styles.css','data.js','core.js','app.js'])await copyFile(path.join(root,file),path.join(dist,file));
+for(const file of ['styles.css','data.js','core.js','app.js','published.js'])await copyFile(path.join(root,file),path.join(dist,file));
 await cp(path.join(root,'assets'),path.join(dist,'assets'),{recursive:true});
 await writeFile(path.join(dist,'.nojekyll'),'');
 console.log('Pacote público gerado em dist/: somente estudo, sem editor.');

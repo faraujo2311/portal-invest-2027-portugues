@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Portal INVEST 2027 — Administração",
-  description: "Editor privado do portal de estudos, com autorização do GitHub e publicação versionada.",
+  description: "Editor do portal de estudos, com acesso por senha e salvamento compartilhado.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

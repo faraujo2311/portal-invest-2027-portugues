@@ -6,54 +6,50 @@ async function api(path,body){
  const data=await result.json().catch(()=>({error:'A resposta do servidor não pôde ser lida.'}));if(!result.ok){const error=new Error(data.error||'A operação não foi concluída.');error.status=result.status;throw error}return data;
 }
 function showAuth(message){$('#authGate').classList.remove('hidden');$('.app-shell').classList.add('hidden');$('#onlineBar').classList.add('hidden');$('#authMessage').textContent=message}
-function onlineStatus(message){$('#onlineStatus').textContent=message|| (online.dirty?'Rascunho com alterações. Publique quando terminar a revisão.':'Conteúdo carregado do GitHub.');$('#publishOnline').disabled=!online.dirty||online.publishing}
+function onlineStatus(message){$('#onlineStatus').textContent=message|| (online.dirty?'Rascunho com alterações. Clique em Salvar alterações quando terminar.':'Tudo salvo. Você pode editar o material.');$('#publishOnline').disabled=!online.dirty||online.publishing}
 storeContent=function(){
  clearTimeout(app.saving);if(!online.loaded)return true;
  const currentText=JSON.stringify(app.modules);online.dirty=currentText!==online.baseline;onlineStatus();
- const saved=$('#savedIndicator');if(saved)saved.textContent=online.dirty?'Rascunho neste navegador':'Igual à versão do GitHub';
+ const saved=$('#savedIndicator');if(saved)saved.textContent=online.dirty?'Rascunho neste navegador':'✓ Salvo no portal';
  try{if(online.dirty)localStorage.setItem(DRAFT_KEY,JSON.stringify({sha:online.sha,modules:app.modules,at:new Date().toISOString()}));else localStorage.removeItem(DRAFT_KEY);return true}
  catch(error){storageFailure('Não foi possível guardar o rascunho neste navegador. Exporte uma cópia antes de sair.');return false}
 };
 async function loadOnline(force=false){
  if(force&&online.dirty&&!confirm('Recarregar o conteúdo publicado e descartar o rascunho atual? Exporte uma cópia antes, se precisar.'))return;
  const data=await api('/api/content');app.modules=normalizeModules(data.modules);online.sha=data.sha;online.baseline=JSON.stringify(app.modules);online.loaded=true;online.dirty=false;
+ const requested=new URL(window.top.location.href).searchParams.get('bloco');if(requested&&app.modules.some(m=>m.id===requested))app.study.currentModuleId=requested;
  app.admin=true;ensureProgress();renderAll();$('.app-shell').classList.remove('hidden');$('#onlineBar').classList.remove('hidden');$('#authGate').classList.add('hidden');onlineStatus();
  if(force){localStorage.removeItem(DRAFT_KEY);$('#draftRecovery').classList.add('hidden');return}
  let draft;try{draft=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null')}catch{}
  if(draft?.modules&&JSON.stringify(draft.modules)!==online.baseline){
-  const target=$('#draftRecovery');target.replaceChildren();target.classList.remove('hidden');const note=document.createElement('p');note.textContent=draft.sha===online.sha?'Há um rascunho guardado neste navegador. Deseja continuar a edição?':'Há um rascunho de uma versão anterior. Baixe uma cópia para revisar as diferenças sem substituir as mudanças do GitHub.';target.append(note);
+  const target=$('#draftRecovery');target.replaceChildren();target.classList.remove('hidden');const note=document.createElement('p');note.textContent=draft.sha===online.sha?'Há um rascunho guardado neste navegador. Deseja continuar a edição?':'Há um rascunho de uma versão anterior. Baixe uma cópia para revisar as diferenças sem substituir as mudanças já salvas.';target.append(note);
   const backup=document.createElement('button');backup.className='outline-btn';backup.textContent='Baixar rascunho';backup.onclick=()=>downloadJSON({type:'invest-portal-content',version:2,modules:draft.modules},'INVEST_rascunho.json');target.append(backup);
   if(draft.sha===online.sha){const restore=document.createElement('button');restore.className='primary-btn';restore.textContent='Continuar rascunho';restore.onclick=()=>{app.modules=normalizeModules(draft.modules);ensureProgress();renderAll();storeContent();target.classList.add('hidden')};target.append(restore)}
   const discard=document.createElement('button');discard.className='outline-btn';discard.textContent='Usar versão publicada';discard.onclick=()=>{localStorage.removeItem(DRAFT_KEY);target.classList.add('hidden')};target.append(discard);
  }
 }
 startup=async function(){
- $('#connectGithub').onclick=connectGithub;$('#publishOnline').onclick=publishOnline;$('#reloadOnline').onclick=()=>loadOnline(true).catch(reportError);$('#logoutOnline').onclick=logoutOnline;
+ $('#passwordForm').onsubmit=enterWithPassword;$('#publishOnline').onclick=publishOnline;$('#reloadOnline').onclick=()=>loadOnline(true).catch(reportError);$('#logoutOnline').onclick=logoutOnline;
  try{
-  online.session=await api('/api/session');const button=$('#connectGithub');button.classList.remove('hidden');
-  if(!online.session.configured){button.textContent='Configurar integração com GitHub';$('#authHelp').textContent='Na primeira vez, crie a integração na conta faraujo2311 e selecione apenas o repositório portal-invest-2027-portugues. Não é necessário copiar senhas ou tokens.';showAuth('Conecte sua conta para começar.');return}
-  if(online.session.installUrl){$('#installGithub').href=online.session.installUrl;$('#installGithub').classList.remove('hidden')}
-  if(!online.session.authenticated){button.textContent='Entrar com GitHub';showAuth('Entre como faraujo2311 para editar o portal.');return}
+  online.session=await api('/api/session');
+  if(!online.session.authenticated){showAuth('');return}
   await loadOnline();
- }catch(error){showAuth(error.message);$('#connectGithub').classList.remove('hidden')}
+ }catch(error){showAuth(error.message)}
 };
-async function connectGithub(){
- const button=$('#connectGithub');button.disabled=true;
+async function enterWithPassword(event){
+ event.preventDefault();const button=$('#enterEditor');button.disabled=true;$('#authMessage').textContent='Verificando senha…';
  try{
-  if(!online.session?.configured){
-   const data=await api('/api/github/setup',{}),form=document.createElement('form');form.method='post';form.action=data.action;form.target='_top';const input=document.createElement('input');input.type='hidden';input.name='manifest';input.value=JSON.stringify(data.manifest);form.append(input);document.body.append(form);form.submit();
-  }else{const data=await api('/api/github/start',{});window.top.location.href=data.url}
- }catch(error){$('#authMessage').textContent=error.message;button.disabled=false}
+  online.session=await api('/api/login',{password:$('#editorPassword').value});$('#editorPassword').value='';await loadOnline();
+ }catch(error){$('#authMessage').textContent=error.message}finally{button.disabled=false}
 }
-function reportError(error){const target=$('#publishResult');target.textContent=error.message;target.classList.remove('hidden');target.classList.add('error');onlineStatus('A operação não foi concluída. Seu rascunho foi preservado.');if(error.status===401){$('#authMessage').textContent=error.message;$('#connectGithub').classList.remove('hidden');$('#authGate').classList.remove('hidden')}}
+function reportError(error){const target=$('#publishResult');target.textContent=error.message;target.classList.remove('hidden');target.classList.add('error');onlineStatus('A operação não foi concluída. Seu rascunho foi preservado.');if(error.status===401)showAuth(error.message)}
 async function publishOnline(){
  if(online.publishing)return;storeContent();if(!online.dirty)return;
- if(!confirm('Publicar estas alterações no portal de estudos? Uma nova versão será registrada no GitHub.'))return;
- const modules=normalizeModules(clone(app.modules));online.publishing=true;onlineStatus('Enviando as alterações ao GitHub…');$('#publishResult').classList.add('hidden');
  try{
-  const result=await api('/api/content',{modules,sha:online.sha,requestId:crypto.randomUUID()});online.sha=result.sha;online.baseline=JSON.stringify(modules);storeContent();
-  const target=$('#publishResult');target.replaceChildren();target.classList.remove('hidden','error');target.append(document.createTextNode('Alterações registradas no GitHub. O site será atualizado automaticamente após a publicação. '));
-  const link=document.createElement('a');link.href=result.actionsUrl;link.target='_blank';link.rel='noopener';link.textContent='Acompanhar publicação';target.append(link);toast('Alterações enviadas. Você pode acompanhar a publicação.');
+  const modules=normalizeModules(clone(app.modules)),serialized=JSON.stringify(modules);if(online.pending?.content!==serialized)online.pending={content:serialized,id:crypto.randomUUID()};
+  online.publishing=true;onlineStatus('Salvando no portal…');$('#publishResult').classList.add('hidden');
+  const result=await api('/api/content',{modules,sha:online.sha,requestId:online.pending.id});online.sha=result.sha;online.baseline=serialized;online.pending=null;storeContent();
+  const target=$('#publishResult');target.replaceChildren();target.classList.remove('hidden','error');target.textContent='✓ Alterações salvas. O material atualizado já está disponível para todos no portal.';toast('Alterações salvas no portal.');
  }catch(error){reportError(error)}finally{online.publishing=false;onlineStatus()}
 }
 async function logoutOnline(){

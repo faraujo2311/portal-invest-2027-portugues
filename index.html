@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; frame-src https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; frame-src https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; base-uri 'none'; form-action 'none'; connect-src 'self' https://portal-invest-2027-admin.russet-frost-6442.chatgpt.site">
 <meta name="description" content="Portal de revisão de Língua Portuguesa para o 9º ano: teoria, infográficos, exercícios comentados e acompanhamento de estudos para INVEST 2027.">
 <meta name="color-scheme" content="light">
 <title>Portal INVEST 2027 — Língua Portuguesa</title>
@@ -26,7 +26,7 @@
   <div class="workspace">
     <header class="topbar">
       <div class="breadcrumb">INVEST 2027 <span>/</span> Língua Portuguesa <span>/</span> <span id="breadcrumbCurrent">Início</span></div>
-      <div class="top-actions"><span class="mode-pill" id="modePill">Modo estudante</span><a class="outline-btn" href="https://portal-invest-2027-admin.russet-frost-6442.chatgpt.site" target="_top">Administração</a><button class="outline-btn" id="adminTopBtn" type="button">Editar conteúdo <span>✎</span></button></div>
+      <div class="top-actions"><span class="mode-pill" id="modePill">Modo estudante</span><a class="outline-btn" id="onlineEditorLink" href="https://portal-invest-2027-admin.russet-frost-6442.chatgpt.site" target="_top">✎ Editar conteúdo</a><button class="outline-btn" id="adminTopBtn" type="button">Editar conteúdo <span>✎</span></button></div>
     </header>
     <div id="localNotice" class="notice hidden"><span>ⓘ</span><div>Você abriu o portal como arquivo (<b>file://</b>). Para reduzir erros de incorporação do YouTube, execute <b>INICIAR_PORTAL.bat</b> e acesse o endereço local exibido no navegador.</div><button id="closeNotice" type="button" aria-label="Fechar aviso">×</button></div>
     <p id="storageNotice" class="notice hidden" role="alert"></p>
@@ -59,7 +59,7 @@
       <div class="admin-layout">
         <section class="admin-main card">
           <div class="admin-info-bar"><b id="editingTitle">Bloco atual</b><span id="savedIndicator">Alterações salvas neste navegador</span></div>
-          <div class="admin-tabs" role="tablist" aria-label="Edição do conteúdo"><button class="tab active" data-tab="general">Conteúdo</button><button class="tab" data-tab="texts">Textos</button><button class="tab" data-tab="questions">Questões</button><button class="tab" data-tab="videos">Vídeos</button><button class="tab" data-tab="images">Imagens</button><button class="tab" data-tab="backup">Backup</button></div>
+          <div class="admin-tabs" role="tablist" aria-label="Edição do conteúdo"><button class="tab active" data-tab="general">Conteúdo</button><button class="tab" data-tab="texts">Textos</button><button class="tab" data-tab="questions">Questões</button><button class="tab" data-tab="videos">Vídeos</button><button class="tab" data-tab="images">Imagens</button><button class="tab" data-tab="sources">Fontes</button><button class="tab" data-tab="backup">Backup</button></div>
           <div id="adminTabContent" class="admin-tab-content"></div>
         </section>
         <aside class="admin-help"><div class="card"><span class="mini-label">COMO EDITAR</span><h3>Alterações automáticas</h3><p>As edições são salvas no navegador automaticamente. Use <b>Exportar conteúdo</b> para manter uma cópia em JSON.</p><hr><h3>Textos formatados</h3><p>Selecione uma palavra e utilize a barra de ferramentas para aplicar <b>negrito</b>, <i>itálico</i>, listas e cores.</p><hr><h3>Publicação futura</h3><p>Este editor funciona apenas em localhost e não tem login. A publicação leva somente a área de estudos. Exporte o conteúdo para atualizar a fonte versionada. Uma futura edição on-line exigirá autenticação e servidor.</p></div></aside>
@@ -74,5 +74,6 @@
 <script src="core.js"></script>
 <script src="app.js"></script>
 <script src="editor.js"></script>
+<script src="published.js"></script>
 </body>
 </html>

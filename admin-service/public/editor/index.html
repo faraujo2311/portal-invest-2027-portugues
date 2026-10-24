@@ -4,13 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; frame-src https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; base-uri 'none'; form-action https://github.com">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; frame-src https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; base-uri 'none'; form-action 'self'; connect-src 'self' https://portal-invest-2027-admin.russet-frost-6442.chatgpt.site">
 <meta name="description" content="Portal de revisão de Língua Portuguesa para o 9º ano: teoria, infográficos, exercícios comentados e acompanhamento de estudos para INVEST 2027.">
 <meta name="color-scheme" content="light">
 <title>Portal INVEST 2027 — Administração</title>
 <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="online.css">
 </head>
-<body><section id="authGate" class="auth-gate"><div class="auth-card"><span class="eyebrow">PORTAL INVEST 2027</span><h1>Seu espaço de edição</h1><p>Adicione vídeos, aprimore as explicações e prepare novas atividades.</p><p id="authMessage" role="status">Verificando seu acesso…</p><button id="connectGithub" class="primary-btn hidden">Entrar com GitHub</button><a id="installGithub" class="outline-btn hidden" target="_top">Instalar no repositório do portal</a><p id="authHelp"></p><a href="https://faraujo2311.github.io/portal-invest-2027-portugues/" target="_top">Voltar ao portal de estudos</a></div></section><header id="onlineBar" class="online-bar hidden"><div><strong>Administração INVEST</strong><span id="onlineStatus" role="status">Conectando…</span></div><div class="online-actions"><button id="reloadOnline" class="outline-btn">Recarregar conteúdo</button><button id="publishOnline" class="primary-btn" disabled>Publicar alterações</button><a href="https://faraujo2311.github.io/portal-invest-2027-portugues/" target="_blank" rel="noopener">Ver site</a><button id="logoutOnline" class="outline-btn">Sair</button></div><p id="publishResult" class="hidden"></p><div id="draftRecovery" class="hidden"></div></header>
+<body>
+<section id="authGate" class="auth-gate"><div class="auth-card"><span class="eyebrow">PORTAL INVEST 2027</span><h1>Entrar no modo edição</h1><p>Digite a senha para editar o material.</p><form id="passwordForm"><div class="field"><label for="editorPassword">Senha de edição</label><input id="editorPassword" type="password" autocomplete="current-password" required maxlength="256"></div><p id="authMessage" role="status" aria-live="polite"></p><button id="enterEditor" class="primary-btn" type="submit">Entrar no modo edição</button></form><a href="https://faraujo2311.github.io/portal-invest-2027-portugues/" target="_top">Voltar ao portal de estudos</a></div></section>
+<header id="onlineBar" class="online-bar hidden"><div><strong>Modo edição</strong><span id="onlineStatus" role="status">Carregando conteúdo…</span></div><div class="online-actions"><button id="reloadOnline" class="outline-btn">Recarregar conteúdo</button><button id="publishOnline" class="primary-btn" disabled>Salvar alterações</button><a href="https://faraujo2311.github.io/portal-invest-2027-portugues/" target="_blank" rel="noopener">Ver portal</a><button id="logoutOnline" class="outline-btn">Sair da edição</button></div><p id="publishResult" class="hidden" role="status"></p><div id="draftRecovery" class="hidden"></div></header>
 <div class="app-shell hidden">
   <aside class="sidebar">
     <div class="brand"><div class="brand-logo" aria-hidden="true">P<span>+</span></div><div><strong>INVEST · Estudos</strong><small>Português • 9º ano</small></div></div>
@@ -21,7 +23,7 @@
       <div class="progress-summary"><span><strong id="doneCount">0</strong> blocos concluídos</span><span><strong id="checksCount">0</strong> etapas feitas</span></div>
     </section>
     <nav aria-label="Blocos de estudo"><div class="side-label nav-label">CONTEÚDOS</div><div id="navList"></div></nav>
-    <div class="sidebar-bottom"><button class="sidebar-button" id="openAdminBtn" type="button">⚙ &nbsp;Modo administrador</button><button class="sidebar-button muted" id="backupProgressBtn" type="button">⇩ &nbsp;Baixar progresso</button><button class="sidebar-button muted" id="restoreProgressBtn" type="button">⇧ &nbsp;Importar progresso</button></div>
+    <div class="sidebar-bottom"><button class="sidebar-button" id="openAdminBtn" type="button">⚙ &nbsp;Modo edição</button><button class="sidebar-button muted" id="backupProgressBtn" type="button">⇩ &nbsp;Baixar progresso</button><button class="sidebar-button muted" id="restoreProgressBtn" type="button">⇧ &nbsp;Importar progresso</button></div>
   </aside>
   <div class="workspace">
     <header class="topbar">
@@ -30,7 +32,7 @@
     </header>
     <div id="localNotice" class="notice hidden"><span>ⓘ</span><div>Você abriu o portal como arquivo (<b>file://</b>). Para reduzir erros de incorporação do YouTube, execute <b>INICIAR_PORTAL.bat</b> e acesse o endereço local exibido no navegador.</div><button id="closeNotice" type="button" aria-label="Fechar aviso">×</button></div>
     <p id="storageNotice" class="notice hidden" role="alert"></p>
-    <p class="device-note">As edições ficam como rascunho até você clicar em Publicar alterações. A prévia de estudo serve para conferir o material.</p>
+    <p class="device-note">As edições ficam como rascunho até você clicar em Salvar alterações. A prévia de estudo serve para conferir o material.</p>
     <main id="studyScreen" class="study-screen">
       <section class="page-heading"><div><span class="eyebrow">CADERNO DIGITAL DE APRENDIZAGEM</span><h1 id="pageTitle">Língua Portuguesa</h1><p id="pageSubtitle">Teoria, exemplos, vídeos e atividades.</p></div><div class="heading-badge" id="studyDayBadge">Preparação 2027</div></section>
       <div class="study-columns">
@@ -55,14 +57,14 @@
       </div>
     </main>
     <main id="adminScreen" class="admin-screen hidden">
-      <div class="admin-title"><div><span class="eyebrow">PAINEL DE EDIÇÃO ON-LINE</span><h1>Gerenciar conteúdo</h1><p>Edite as aulas, os textos, os exercícios, as imagens e a playlist de vídeos deste bloco.</p></div><div class="admin-header-actions"><button class="outline-btn" id="adminBackupBtn" type="button">⇩ Exportar conteúdo</button><button class="primary-btn" id="exitAdminBtn" type="button">✓ Voltar a estudar</button></div></div>
+      <div class="admin-title"><div><span class="eyebrow">EDITE SEU MATERIAL</span><h1>Editar conteúdo</h1><p>Edite as aulas, os textos, os exercícios, as imagens e a playlist de vídeos deste bloco.</p></div><div class="admin-header-actions"><button class="outline-btn" id="adminBackupBtn" type="button">⇩ Exportar conteúdo</button><button class="primary-btn" id="exitAdminBtn" type="button">✓ Voltar a estudar</button></div></div>
       <div class="admin-layout">
         <section class="admin-main card">
           <div class="admin-info-bar"><b id="editingTitle">Bloco atual</b><span id="savedIndicator">Alterações salvas neste navegador</span></div>
-          <div class="admin-tabs" role="tablist" aria-label="Edição do conteúdo"><button class="tab active" data-tab="general">Conteúdo</button><button class="tab" data-tab="texts">Textos</button><button class="tab" data-tab="questions">Questões</button><button class="tab" data-tab="videos">Vídeos</button><button class="tab" data-tab="images">Imagens</button><button class="tab" data-tab="backup">Backup</button></div>
+          <div class="admin-tabs" role="tablist" aria-label="Edição do conteúdo"><button class="tab active" data-tab="general">Conteúdo</button><button class="tab" data-tab="texts">Textos</button><button class="tab" data-tab="questions">Questões</button><button class="tab" data-tab="videos">Vídeos</button><button class="tab" data-tab="images">Imagens</button><button class="tab" data-tab="sources">Fontes</button><button class="tab" data-tab="backup">Backup</button></div>
           <div id="adminTabContent" class="admin-tab-content"></div>
         </section>
-        <aside class="admin-help"><div class="card"><span class="mini-label">COMO EDITAR</span><h3>Alterações automáticas</h3><p>As edições são salvas no navegador automaticamente. Use <b>Exportar conteúdo</b> para manter uma cópia em JSON.</p><hr><h3>Textos formatados</h3><p>Selecione uma palavra e utilize a barra de ferramentas para aplicar <b>negrito</b>, <i>itálico</i>, listas e cores.</p><hr><h3>Publicação futura</h3><p>Após revisar o rascunho, clique em Publicar alterações. O histórico do GitHub guarda cada versão e o site é atualizado automaticamente.</p></div></aside>
+        <aside class="admin-help"><div class="card"><span class="mini-label">COMO EDITAR</span><h3>Alterações automáticas</h3><p>As edições são salvas no navegador automaticamente. Use <b>Exportar conteúdo</b> para manter uma cópia em JSON.</p><hr><h3>Textos formatados</h3><p>Selecione uma palavra e utilize a barra de ferramentas para aplicar <b>negrito</b>, <i>itálico</i>, listas e cores.</p><hr><h3>Publicação futura</h3><p>Após revisar o rascunho, clique em Salvar alterações. As alterações passam a aparecer no portal para todas as pessoas. Uma cópia de cada versão fica guardada no servidor.</p></div></aside>
       </div>
     </main>
   </div>
@@ -74,5 +76,6 @@
 <script src="core.js"></script>
 <script src="app.js"></script>
 <script src="editor.js"></script><script src="online.js"></script>
+
 </body>
 </html>

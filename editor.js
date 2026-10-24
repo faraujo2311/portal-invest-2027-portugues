@@ -1,9 +1,9 @@
 'use strict';
 function toggleAdmin(force){if(!EDITOR_ENABLED)return;storeContent();ensureProgress();app.admin=typeof force==='boolean'?force:!app.admin;renderAll();window.scrollTo({top:0,behavior:'instant'})}
 // ADMIN
-function field(path,label,val,type='text'){return `<div class="field"><label>${esc(label)}</label>${type==='textarea'?`<textarea data-field="${esc(path)}" rows="3">${esc(val)}</textarea>`:`<input type="text" data-field="${esc(path)}" value="${esc(val)}">`}</div>`}
+function field(path,label,val,type='text'){return `<div class="field"><label for="field-${esc(path)}">${esc(label)}</label>${type==='textarea'?`<textarea id="field-${esc(path)}" data-field="${esc(path)}" rows="3">${esc(val)}</textarea>`:`<input id="field-${esc(path)}" type="text" data-field="${esc(path)}" value="${esc(val)}">`}</div>`}
 function htmlOfTheory(s){return typeof s.html==='string'?s.html:`<ul>${(s.points||[]).map(p=>`<li>${esc(p)}</li>`).join('')}</ul>`}
-function richEditor(path,html){return `<div class="rich-toolbar" data-for="${esc(path)}"><button data-format="bold" title="Negrito"><b>B</b></button><button data-format="italic" title="Itálico"><i>I</i></button><button data-format="underline" title="Sublinhar"><u>U</u></button><button data-format="insertUnorderedList" title="Lista com marcadores">• Lista</button><button data-format="insertOrderedList" title="Lista numerada">1. Lista</button><button data-format="formatBlock" data-arg="h3" title="Título">Título</button><button data-format="createLink" title="Link">🔗</button><select data-format-color title="Cor do texto"><option value="">Cor do texto</option><option value="#126681">Azul</option><option value="#a04d27">Laranja</option><option value="#177345">Verde</option><option value="#163044">Padrão</option></select></div><div class="rich-editor" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" data-rich="${esc(path)}">${safeRich(html)}</div>`}
+function richEditor(path,html){return `<div class="rich-toolbar" data-for="${esc(path)}"><button data-format="bold" title="Negrito"><b>B</b></button><button data-format="italic" title="Itálico"><i>I</i></button><button data-format="underline" title="Sublinhar"><u>U</u></button><button data-format="insertUnorderedList" title="Lista com marcadores">• Lista</button><button data-format="insertOrderedList" title="Lista numerada">1. Lista</button><button data-format="formatBlock" data-arg="h3" title="Título">Título</button><button data-format="createLink" title="Link">🔗</button><select data-format-color title="Cor do texto"><option value="">Cor do texto</option><option value="#126681">Azul</option><option value="#a04d27">Laranja</option><option value="#177345">Verde</option><option value="#163044">Padrão</option></select><select data-format-font title="Fonte do texto" aria-label="Fonte do texto"><option value="">Fonte</option><option>Arial</option><option>Georgia</option><option>Verdana</option><option>Times New Roman</option><option>Courier New</option></select><select data-format-size title="Tamanho do texto" aria-label="Tamanho do texto"><option value="">Tamanho</option><option value="2">Pequeno</option><option value="3">Normal</option><option value="4">Grande</option><option value="5">Destaque</option></select></div><div class="rich-editor" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" data-rich="${esc(path)}">${safeRich(html)}</div>`}
 function editorBox(title,buttons,body){return `<div class="editor-item"><div class="editor-head"><h3 class="editor-title">${esc(title)}</h3><div class="editor-actions">${buttons}</div></div>${body}</div>`}
 function manageButtons(collection,index,parent=''){return `<button class="subtle-btn tiny-btn" data-action="move" data-collection="${esc(collection)}" data-parent="${esc(parent)}" data-index="${index}" data-direction="-1" title="Subir">↑</button><button class="subtle-btn tiny-btn" data-action="move" data-collection="${esc(collection)}" data-parent="${esc(parent)}" data-index="${index}" data-direction="1" title="Descer">↓</button><button class="danger-btn tiny-btn" data-action="remove" data-collection="${esc(collection)}" data-parent="${esc(parent)}" data-index="${index}">Excluir</button>`}
 function renderAdmin(){
@@ -15,6 +15,7 @@ function renderAdmin(){
  if(app.tab==='questions')content.innerHTML=renderAdminQuestions(m);
  if(app.tab==='videos')content.innerHTML=renderAdminVideos(m);
  if(app.tab==='images')content.innerHTML=renderAdminImages(m);
+ if(app.tab==='sources')content.innerHTML=renderAdminSources(m);
  if(app.tab==='backup')content.innerHTML=renderAdminBackup();
 }
 function renderAdminGeneral(m){
@@ -66,8 +67,13 @@ function renderAdminImages(m){
  m.images.forEach((im,i)=>h+=`<div class="image-admin-item"><img class="image-preview" src="${esc(safeImage(im.src))}" alt="${esc(im.caption)}">${field(`images.${i}.caption`,'Legenda',im.caption)}${manageButtons('images',i)}</div>`);
  h+='</div>';return h;
 }
+function renderAdminSources(m){
+ let html='<p class="editor-intro">Adicione as referências e os materiais de apoio deste bloco.</p><button class="primary-btn" data-action="add-source">+ Adicionar fonte</button>';
+ (m.sources||[]).forEach((source,i)=>html+=editorBox('Fonte '+(i+1),manageButtons('sources',i),field('sources.'+i+'.title','Nome da fonte',source.title)+field('sources.'+i+'.url','Endereço da fonte',source.url)));
+ return html;
+}
 function renderAdminBackup(){
- return `<div class="card-note"><b>Atenção:</b> o portal é local. As alterações ficam neste navegador e não passam automaticamente para outros computadores. Use os arquivos JSON para guardar ou transportar as edições. Ao publicar, será necessário migrar o conteúdo e adicionar autenticação.</div><div class="editor-item"><h3>Conteúdo das aulas</h3><p>Exporta todos os textos editados, questões, imagens e vídeos.</p><div class="backup-actions"><button class="primary-btn" data-action="export-content">⇩ Exportar conteúdo JSON</button><button class="outline-btn" data-action="import-content">⇧ Importar conteúdo JSON</button></div></div><div class="editor-item"><h3>Progresso da estudante</h3><p>Exporta checks, respostas e histórico de tentativas.</p><div class="backup-actions"><button class="primary-btn" data-action="export-progress">⇩ Exportar progresso JSON</button><button class="outline-btn" data-action="import-progress">⇧ Importar progresso JSON</button></div></div><div class="editor-item"><h3>Restaurar</h3><p>Substituir todas as edições deste portal pelo conteúdo inicial.</p><button class="danger-btn" data-action="restore-content">Restaurar conteúdo original</button></div>`
+ return `<div class="card-note"><b>Atenção:</b> as edições ficam neste navegador até serem salvas. As alterações ficam neste navegador e não passam automaticamente para outros computadores. Use os arquivos JSON para guardar ou transportar as edições. No editor on-line, use Salvar alterações para atualizar o portal.</div><div class="editor-item"><h3>Conteúdo das aulas</h3><p>Exporta todos os textos editados, questões, imagens e vídeos.</p><div class="backup-actions"><button class="primary-btn" data-action="export-content">⇩ Exportar conteúdo JSON</button><button class="outline-btn" data-action="import-content">⇧ Importar conteúdo JSON</button></div></div><div class="editor-item"><h3>Progresso da estudante</h3><p>Exporta checks, respostas e histórico de tentativas.</p><div class="backup-actions"><button class="primary-btn" data-action="export-progress">⇩ Exportar progresso JSON</button><button class="outline-btn" data-action="import-progress">⇧ Importar progresso JSON</button></div></div><div class="editor-item"><h3>Restaurar</h3><p>Substituir todas as edições deste portal pelo conteúdo inicial.</p><button class="danger-btn" data-action="restore-content">Restaurar conteúdo original</button></div>`
 }
 function nested(path){let item=current();const parts=path.split('.');for(const p of parts){if(item==null)return null;item=item[p]}return item}
 function setNested(path,value){const parts=path.split('.');if(parts.some(p=>['__proto__','prototype','constructor'].includes(p))||parts.length>6)return;let item=current();for(let i=0;i<parts.length-1;i++){if(item[parts[i]]==null)item[parts[i]]={};item=item[parts[i]]}item[parts.at(-1)]=value;queueStore()}
@@ -108,6 +114,7 @@ function editorAction(btn){
   if(!/^https:\/\//i.test(src)){toast('Informe uma URL de imagem que comece com https://');return}
   m.images.push({id:id(),src,caption});
  }
+ else if(act==='add-source'){(m.sources||=[]).push({title:'Nova fonte',url:'https://'})}
  else if(act==='add-module'){
   const nm={id:id(),title:'Novo bloco de conteúdo',icon:'📘',summary:'Novo tema de estudos.',goals:[],theory:[{title:'Introdução',html:'<p>Escreva sua explicação aqui.</p>'}],examples:[],reading_sets:[],quiz:[],videos:[],images:[],infographic:''};
   app.modules.push(nm);app.study.currentModuleId=nm.id;ensureProgress();app.tab='general';
@@ -164,6 +171,9 @@ function bindAdminEvents(){
  });
  admin.addEventListener('change',e=>{
   if(e.target.matches('[data-field]')&&!e.target.dataset.field.startsWith('new-video-'))modifiedField(e.target);
+  if(e.target.matches('[data-format-font],[data-format-size]')){
+   const editable=selectedEditable();if(editable&&e.target.value){editable.focus();document.execCommand(e.target.matches('[data-format-font]')?'fontName':'fontSize',false,e.target.value);modifiedRich(editable)}e.target.value='';
+  }
   if(e.target.id==='imageUpload')uploadImages(e.target);
   if(e.target.matches('[data-format-color]')){
    const editable=selectedEditable();if(editable){editable.focus();document.execCommand('foreColor',false,e.target.value);modifiedRich(editable)}e.target.value='';

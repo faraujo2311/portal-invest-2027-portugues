@@ -14,7 +14,7 @@ const id = ()=>'id'+Date.now().toString(36)+Math.random().toString(36).slice(2,7
 const esc = v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hidden'),3300)}
 function formatPlain(v){return esc(v).replace(/\n/g,'<br>')}
-function richOrText(v){return /<(?:p|ul|ol|div|strong|b|i|em|h\d|span|br|blockquote|a)[\s>]/i.test(String(v||'')) ? safeRich(v) : formatPlain(v)}
+function richOrText(v){return /<(?:p|ul|ol|div|strong|b|i|em|h\d|span|font|br|blockquote|a)[\s>]/i.test(String(v||'')) ? safeRich(v) : formatPlain(v)}
 function storageFailure(message){
  const notice=$('#storageNotice');if(notice){notice.textContent=message;notice.classList.remove('hidden')}toast(message);
 }
@@ -73,6 +73,7 @@ function renderStats(){
 }
 function renderHeader(){
  $('#breadcrumbCurrent').textContent=current().title;
+ if($('#onlineEditorLink'))$('#onlineEditorLink').href='https://portal-invest-2027-admin.russet-frost-6442.chatgpt.site/?bloco='+encodeURIComponent(current().id);
  $('#modePill').textContent=app.admin?'Modo administrador':'Modo estudante';
  $('#modePill').style.background=app.admin?'#fff0e4':'#e6f5eb';$('#modePill').style.color=app.admin?'#a45729':'#237348';
  if($('#adminTopBtn'))$('#adminTopBtn').textContent=app.admin?'✓ Voltar ao estudo':'✎ Editar conteúdo';
@@ -102,6 +103,7 @@ function renderStudy(){
  if(m.examples.length){html+=sectionHeading('04','Exemplos resolvidos');html+='<section class="content-card">';for(const ex of m.examples)html+=`<div class="example"><strong>${esc(ex.title)}</strong><div class="prose">${richOrText(ex.content)}</div></div>`;html+='</section>'}
  if(m.quiz.length){html+=sectionHeading('05','Exercícios de fixação');html+=`<section class="content-card">${renderQuiz(m.quiz,`${m.id}/main`,'Teste seus conhecimentos')}</section>`}
  if(!m.quiz.length&&!m.reading_sets.length)html+=`<section class="content-card"><h3>Prática</h3><p>Este bloco propõe leitura e revisão. Continue para as atividades do próximo tema.</p></section>`;
+ if(m.sources?.length)html+=sectionHeading('06','Fontes e materiais de apoio')+`<section class="content-card"><ul>${m.sources.map(source=>`<li><a href="${esc(safeLink(source.url))}" target="_blank" rel="noopener noreferrer">${esc(source.title||source.url)}</a></li>`).join('')}</ul></section>`;
  $('#contentArea').innerHTML=html;
  $$('[data-stage]').forEach(el=>el.checked=!!app.study.checks[m.id][el.dataset.stage]);
  $('#stageBadge').textContent=STAGES.filter(s=>app.study.checks[m.id][s]).length+'/4';

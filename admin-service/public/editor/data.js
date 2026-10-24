@@ -3,14 +3,13 @@ window.PORTAL_DEFAULT_MODULES = [
     "id": "intro",
     "title": "Boas-vindas e plano de estudos",
     "icon": "🏁",
-    "type": "content",
-    "infographic": "",
     "summary": "Entenda como usar o portal, organizar a revisão e acompanhar o progresso do estudo.",
     "goals": [
       "Estudar com sequência clara: teoria, exemplos, vídeo e questões.",
       "Marcar o avanço em cada bloco.",
       "Transformar erros em revisão dirigida."
     ],
+    "infographic": "",
     "theory": [
       {
         "title": "Como usar este portal",
@@ -39,6 +38,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "No bloco de leitura, a estudante lê o texto, observa o infográfico, assiste ao vídeo e só depois faz as questões. Ao final, marca os checks do bloco para registrar a evolução."
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Qual é a sequência mais indicada neste portal?",
@@ -63,16 +63,13 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "Os checks registram o que já foi estudado e ajudam na revisão."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   },
   {
     "id": "interpretacao",
     "title": "Leitura e interpretação textual",
     "icon": "📖",
-    "type": "reading",
-    "infographic": "escada_leitura.png",
     "summary": "Aprenda a localizar informações explícitas, fazer inferências, identificar ideia central, finalidade e gênero textual.",
     "goals": [
       "Diferenciar informação explícita e inferência.",
@@ -80,6 +77,7 @@ window.PORTAL_DEFAULT_MODULES = [
       "Interpretar conectivos em contexto.",
       "Justificar respostas com pistas do texto."
     ],
+    "infographic": "escada_leitura.png",
     "theory": [
       {
         "title": "Passo a passo da boa leitura",
@@ -362,21 +360,26 @@ window.PORTAL_DEFAULT_MODULES = [
       }
     ],
     "quiz": [],
-    "images": [],
-    "videos": []
+    "videos": [
+      {
+        "id": "idmvml4f87yrs57",
+        "title": "Interpretação de Textos: Guia COMPLETO para Você ARRASAR na Interpretação!",
+        "url": "https://www.youtube.com/watch?v=OxTNN-IKcEQ"
+      }
+    ],
+    "images": []
   },
   {
     "id": "classes-gramaticais",
     "title": "Classes gramaticais",
     "icon": "🧩",
-    "type": "content",
-    "infographic": "classes.png",
     "summary": "Entenda como as palavras se comportam na frase: substantivo, artigo, adjetivo, pronome, verbo, advérbio, preposição e conjunção.",
     "goals": [
       "Identificar a função das palavras no contexto.",
       "Diferenciar adjetivo e advérbio.",
       "Reconhecer pronomes e conectivos."
     ],
+    "infographic": "classes.png",
     "theory": [
       {
         "title": "O que são classes gramaticais?",
@@ -416,6 +419,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "Em “Aquela proposta parecia interessante”, “aquela” é pronome demonstrativo e “interessante” é adjetivo."
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Na frase “Os alunos atentos responderam rapidamente”, a palavra “atentos” é:",
@@ -484,22 +488,20 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "“Azul” caracteriza o substantivo “livro”."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   },
   {
     "id": "semantica",
     "title": "Semântica e relações de sentido",
     "icon": "💡",
-    "type": "content",
-    "infographic": "semantica.png",
     "summary": "Estude conectivos, sinônimos, antônimos, denotação, conotação, fato, opinião e ironia.",
     "goals": [
       "Reconhecer relações de sentido entre palavras e orações.",
       "Diferenciar sentido literal e figurado.",
       "Perceber marcas de fato e opinião."
     ],
+    "infographic": "semantica.png",
     "theory": [
       {
         "title": "Conectivos e seus sentidos",
@@ -538,6 +540,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "“A cidade acordou cedo.” Como cidade não acorda literalmente, a frase usa personificação."
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Em “Queria sair, mas começou a chover”, “mas” indica:",
@@ -606,22 +609,20 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "A oração concessiva apresenta obstáculo que não impediu a ação."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   },
   {
     "id": "sintaxe-nominal",
     "title": "Adjunto adnominal e complemento nominal",
     "icon": "🔎",
-    "type": "content",
-    "infographic": "adjunto_complemento.png",
     "summary": "Aprenda a diferenciar termos que acompanham o nome dos termos que completam o sentido de um nome.",
     "goals": [
       "Distinguir adjunto adnominal e complemento nominal.",
       "Observar o papel da preposição.",
       "Relacionar estrutura e sentido."
     ],
+    "infographic": "adjunto_complemento.png",
     "theory": [
       {
         "title": "Adjunto adnominal",
@@ -655,6 +656,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "“A semana intensa terminou.” O termo “intensa” caracteriza “semana”: adjunto adnominal."
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Em “A necessidade de ajuda era evidente”, “de ajuda” é:",
@@ -712,22 +714,20 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "“Ao acordo” completa o sentido do adjetivo “favorável”."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   },
   {
     "id": "concordancia",
     "title": "Concordância verbal",
     "icon": "✅",
-    "type": "content",
-    "infographic": "concordancia.png",
     "summary": "Veja como o verbo concorda com o sujeito e conheça casos importantes, como haver e fazer impessoais.",
     "goals": [
       "Fazer a concordância entre verbo e sujeito.",
       "Reconhecer verbos impessoais.",
       "Evitar erros frequentes em provas."
     ],
+    "infographic": "concordancia.png",
     "theory": [
       {
         "title": "Regra básica",
@@ -763,6 +763,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "“Faz três dias que a prova foi anunciada.” Correto, pois “faz” indica tempo decorrido."
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Assinale a frase correta:",
@@ -820,22 +821,20 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "“Faz” é a forma correta em expressão de tempo."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   },
   {
     "id": "pontuacao",
     "title": "Pontuação",
     "icon": "✍️",
-    "type": "content",
-    "infographic": "pontuacao.png",
     "summary": "Aprenda a usar vírgula, ponto final, dois-pontos, ponto e vírgula e travessão com clareza e sentido.",
     "goals": [
       "Usar a pontuação para organizar o texto.",
       "Reconhecer erros de vírgula mais comuns.",
       "Perceber o efeito de sentido da pontuação."
     ],
+    "infographic": "pontuacao.png",
     "theory": [
       {
         "title": "Função da pontuação",
@@ -872,6 +871,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "“João, feche a porta.” A vírgula separa o vocativo."
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Qual frase está pontuada corretamente?",
@@ -929,22 +929,20 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "A expressão inicial “Ontem” pode ser separada por vírgula."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   },
   {
     "id": "acentuacao",
     "title": "Acentuação e ortografia",
     "icon": "🔤",
-    "type": "content",
-    "infographic": "acentuacao.png",
     "summary": "Revise as regras mais cobradas: oxítonas, paroxítonas, proparoxítonas, hiatos e grafias importantes.",
     "goals": [
       "Reconhecer padrões de acentuação.",
       "Distinguir palavras acentuadas por hiato.",
       "Evitar grafias ultrapassadas em provas."
     ],
+    "infographic": "acentuacao.png",
     "theory": [
       {
         "title": "Regras básicas",
@@ -978,6 +976,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "“Saúde” recebe acento porque o “u” forma hiato."
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Qual palavra está corretamente escrita?",
@@ -1035,22 +1034,20 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "“Saúde” é acentuada por hiato; as demais são proparoxítonas."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   },
   {
     "id": "predicativo",
     "title": "Predicativo do sujeito",
     "icon": "🪞",
-    "type": "content",
-    "infographic": "predicativo.png",
     "summary": "Descubra como o predicativo atribui uma característica ou estado ao sujeito por meio do verbo.",
     "goals": [
       "Reconhecer o predicativo do sujeito.",
       "Relacionar sujeito, verbo e característica.",
       "Evitar confusão com objeto e adjunto adnominal."
     ],
+    "infographic": "predicativo.png",
     "theory": [
       {
         "title": "O que é predicativo do sujeito?",
@@ -1083,6 +1080,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "“A prova parecia difícil.” O termo “difícil” atribui característica à prova."
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Em “A sala estava silenciosa”, o termo “silenciosa” é:",
@@ -1140,22 +1138,20 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "Em “corrigiu a atividade” não há termo caracterizando o sujeito."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   },
   {
     "id": "transitividade",
     "title": "Transitividade verbal",
     "icon": "🔗",
-    "type": "content",
-    "infographic": "transitividade.png",
     "summary": "Estude como os verbos podem ou não precisar de complemento e como identificar objeto direto e indireto.",
     "goals": [
       "Reconhecer verbos intransitivos, transitivos e de ligação.",
       "Identificar objeto direto e indireto.",
       "Analisar o sentido do verbo no contexto."
     ],
+    "infographic": "transitividade.png",
     "theory": [
       {
         "title": "Verbos e complementos",
@@ -1190,6 +1186,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "“A menina comprou um livro.” O verbo “comprar” pede objeto direto: “um livro”."
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Em “A menina comprou um livro”, o verbo “comprou” é:",
@@ -1247,22 +1244,20 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "O complemento vem com preposição exigida pelo verbo."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   },
   {
     "id": "producao",
     "title": "Produção de texto",
     "icon": "📝",
-    "type": "content",
-    "infographic": "narrativa.png",
     "summary": "Organize ideias, escreva com começo, desenvolvimento e conclusão e revise coesão, coerência, ortografia e pontuação.",
     "goals": [
       "Planejar e escrever um texto narrativo curto.",
       "Usar parágrafos com organização e progressão de ideias.",
       "Revisar ortografia, pontuação e clareza."
     ],
+    "infographic": "narrativa.png",
     "theory": [
       {
         "title": "Estrutura de uma narrativa",
@@ -1299,6 +1294,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "Frase simples: “Ana ajudou uma colega.” Versão ampliada: “Ao perceber que a colega estava nervosa antes da prova, Ana compartilhou suas anotações e a ajudou a recuperar a confiança.”"
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Qual é a ordem mais adequada de uma narrativa?",
@@ -1356,22 +1352,20 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "O planejamento ajuda a organizar o texto."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   },
   {
     "id": "revisao-final",
     "title": "Revisão final e simulado",
     "icon": "🎯",
-    "type": "content",
-    "infographic": "",
     "summary": "Revise os principais pontos de Língua Portuguesa com um simulado rápido e orientações para o dia da prova.",
     "goals": [
       "Revisar conceitos centrais antes do simulado.",
       "Praticar a leitura atenta do comando.",
       "Escolher a alternativa com apoio no texto e nas regras estudadas."
     ],
+    "infographic": "",
     "theory": [
       {
         "title": "Estratégia para o dia da prova",
@@ -1389,6 +1383,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "content": "Acertar em Português não é decorar respostas prontas: é compreender, comparar, justificar e revisar."
       }
     ],
+    "reading_sets": [],
     "quiz": [
       {
         "q": "Qual conectivo indica conclusão?",
@@ -1479,8 +1474,7 @@ window.PORTAL_DEFAULT_MODULES = [
         "explanation": "O desenvolvimento é a parte central da narrativa."
       }
     ],
-    "images": [],
     "videos": [],
-    "reading_sets": []
+    "images": []
   }
 ];

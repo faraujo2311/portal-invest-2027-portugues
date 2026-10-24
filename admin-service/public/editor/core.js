@@ -39,14 +39,19 @@ function safeRich(input){
    // Browser color formatting can produce FONT; retain its text and safe color.
    if(node.tagName==='FONT'){
     const span=doc.createElement('span');span.style.color=node.getAttribute('color')||node.style.color;
+    span.style.fontFamily=node.getAttribute('face')||node.style.fontFamily;
+    span.style.fontSize=({'2':'14px','3':'16px','4':'18px','5':'24px'})[node.getAttribute('size')]||node.style.fontSize;
     span.append(...node.childNodes);node.replaceWith(span);node=span;
    }
    if(!allowed.has(node.tagName)){clean(node,depth+1);node.replaceWith(...node.childNodes);continue}
    const href=node.tagName==='A'?safeLink(node.getAttribute('href')):'';
    const color=node.style.color;
+   const font=node.style.fontFamily.replace(/["']/g,'').toLowerCase(),size=node.style.fontSize;
    for(const attribute of Array.from(node.attributes))node.removeAttribute(attribute.name);
    if(href){node.setAttribute('href',href);node.setAttribute('target','_blank');node.setAttribute('rel','noopener noreferrer')}
    if(color&&/^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\))$/i.test(color)&&['SPAN','B','STRONG','I','EM','U'].includes(node.tagName))node.style.color=color;
+   if(['arial','georgia','verdana','times new roman','courier new'].includes(font))node.style.fontFamily=font;
+   if(['14px','16px','18px','24px'].includes(size))node.style.fontSize=size;
    clean(node,depth+1);
   }
  }
@@ -74,6 +79,7 @@ function normalizeModules(value){
    examples:listValue(m.examples).map(x=>({title:textValue(x.title,'Exemplo'),content:textValue(x.content)})),
    reading_sets:listValue(m.reading_sets,100).map(x=>({title:textValue(x.title,'Texto'),genre:textValue(x.genre,'Leitura'),text:textValue(x.text),questions:cleanQuiz(x.questions)})),
    quiz:cleanQuiz(m.quiz),
+   sources:listValue(m.sources,100).map(x=>{const url=safeLink(x.url);if(!url)throw new Error('Fonte inválida. Use um endereço HTTP ou HTTPS.');return {title:textValue(x.title,'Material de apoio',500),url}}),
    videos:listValue(m.videos,200).map((x,j)=>{
     const videoId=safeID(x.id,'video'+j);if(videoIds.has(videoId))throw new Error('Identificador de vídeo duplicado.');videoIds.add(videoId);
     return {id:videoId,title:textValue(x.title,`Vídeo ${j+1}`),url:textValue(x.url,'',3000)};

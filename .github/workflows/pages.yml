@@ -19,7 +19,7 @@ jobs:
       - name: Validar dados, backups e progresso
         run: npm test
       - name: Verificar segurança da administração
-        run: node --test admin-service/tests/admin-api.test.mjs
+        run: node --test admin-service/tests/admin-api.test.mjs admin-service/tests/password-api.test.mjs
       - name: Gerar somente a área pública
         run: npm run build
       - uses: actions/configure-pages@v5
