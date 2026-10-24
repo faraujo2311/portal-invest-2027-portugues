@@ -1,0 +1,17 @@
+import {readFile,writeFile,copyFile} from 'node:fs/promises';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const require=createRequire(import.meta.url);
+const {normalizeModules}=require('../core.js');
+const root=fileURLToPath(new URL('../',import.meta.url));
+const filename=process.argv[2];
+if(!filename)throw new Error('Uso: node scripts/import-content.mjs caminho/backup.json');
+const text=await readFile(filename,'utf8');if(Buffer.byteLength(text)>15*1024*1024)throw new Error('Backup maior que 15 MB.');
+const backup=JSON.parse(text);
+if(backup.type&&backup.type!=='invest-portal-content')throw new Error('Backup de conteúdo inválido.');
+if(backup.version!==undefined&&![1,2].includes(backup.version))throw new Error('Versão não suportada.');
+const modules=normalizeModules(backup.modules);
+await copyFile(path.join(root,'data.js'),path.join(root,'data.before-import.js'));
+await writeFile(path.join(root,'data.js'),'window.PORTAL_DEFAULT_MODULES = '+JSON.stringify(modules,null,2).replace(/</g,'\\u003c')+';\n');
+console.log('Conteúdo validado e incorporado em data.js. Revise, teste e publique o commit. Cópia anterior: data.before-import.js.');

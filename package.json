@@ -1,0 +1,13 @@
+{
+  "name": "portal-invest-2027-portugues",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Portal INVEST 2027 — Língua Portuguesa, com editor local e publicação estática",
+  "scripts": {
+    "test": "node --test tests/core.test.mjs",
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/serve.mjs",
+    "preview": "node scripts/serve.mjs --public"
+  },
+  "engines": { "node": ">=22" }
+}

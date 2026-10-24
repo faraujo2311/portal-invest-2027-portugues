@@ -1,0 +1,7 @@
+dist/
+node_modules/
+data.before-import.js
+*progresso*.json
+*conteudo_editado*.json
+.DS_Store
+Thumbs.db

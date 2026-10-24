@@ -1,0 +1,58 @@
+PORTAL INVEST — LÍNGUA PORTUGUESA • VERSÃO 2
+==============================================
+
+PRIMEIRO ACESSO NO WINDOWS
+1. Extraia TODO o conteúdo do ZIP para uma pasta.
+2. Dê dois cliques no arquivo INICIAR_PORTAL.bat.
+3. O navegador abrirá http://127.0.0.1:8765.
+4. Não feche a janela de comando enquanto estiver usando o portal.
+
+IMPORTANTE: o arquivo INICIAR_PORTAL.bat exige Python instalado no Windows.
+Alternativa: no terminal, dentro da pasta, execute python iniciar.py
+Ou abra index.html diretamente — o restante do portal funciona, mas o YouTube
+pode apresentar erro 153 por falta de cabeçalho HTTP Referer.
+
+MODO ESTUDANTE
+- Escolha o bloco pelo menu esquerdo.
+- Leia teoria, acompanhe exemplos, veja o vídeo à direita.
+- Corrija quizzes com gabarito explicado. Registre etapas no checklist.
+- O avanço é salvo no navegador deste computador.
+
+MODO ADMINISTRADOR
+- Clique em "Modo administrador" no menu esquerdo.
+- Conteúdo: edite título, objetivos, seções, textos com negrito/listas/cores,
+  exemplos e até crie novos blocos.
+- Textos: edite ou adicione textos de interpretação.
+- Questões: adicione, exclua, reordene ou edite questão, alternativas,
+  resposta correta e explicação.
+- Vídeos: adicione múltiplos links do YouTube para cada bloco, edite títulos,
+  mude a ordem ou exclua vídeos. Cada bloco possui playlist própria.
+- Imagens: envie PNG, JPG ou WebP, ou cole URLs de imagens HTTPS.
+  Os uploads são comprimidos e guardados no armazenamento do navegador.
+- Backup: exporte/importe conteúdo e progresso separadamente em JSON.
+
+YOUTUBE — ERRO 153
+O erro 153 costuma ocorrer quando o YouTube não recebe informação de origem
+(Referer) ou com políticas de incorporação. Executar pelo endereço
+http://127.0.0.1:8765 é a opção recomendada, não file://.
+Se o vídeo continuar não aparecendo, clique em "Abrir no YouTube" abaixo
+ do player. Alguns vídeos privados, restritos ou com incorporação desativada
+não podem ser reproduzidos dentro de sites.
+
+DADOS E PUBLICAÇÃO
+- O conteúdo editado e o progresso são salvos no localStorage do navegador.
+- Faça backup de conteúdo e progresso após mudanças importantes.
+- Esse modo administrador NÃO tem login/senha e NÃO é seguro para publicação
+  pública com edição habilitada. Para colocar o portal na internet, deve-se
+  implementar autenticação e armazenamento centralizado.
+- Limpar os dados do navegador pode apagar as alterações sem backup.
+
+ARQUIVOS DO PORTAL
+index.html, styles.css, app.js, data.js, assets/, iniciar.py, INICIAR_PORTAL.bat
+
+NOTA PARA QUEM JÁ USAVA A VERSÃO 1 ABRINDO HTML DIRETAMENTE:
+O navegador pode tratar file:// e http://127.0.0.1 como locais diferentes.
+Abra a versão anterior, exporte o progresso JSON, e depois importe-o
+na aba Backup do novo portal, caso precise recuperar dados antigos.
+O importador da V2 aceita o JSON de progresso da primeira versão, inclusive
+os links dos vídeos cadastrados nela.
